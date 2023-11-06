@@ -2,12 +2,14 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-  class="h-5 w-5"
+   class="h-8 w-8"
+   width="66.973007mm"
+   height="66.973007mm"
    viewBox="0 0 66.973007 66.973007"
    version="1.1"
    id="svg5"
-   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
-   sodipodi:docname="n.svg"
+   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
+   sodipodi:docname="logo.svg"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
@@ -24,9 +26,9 @@
      showgrid="false"
      showguides="true"
      inkscape:guide-bbox="true"
-     inkscape:zoom="0.53629349"
-     inkscape:cx="162.22461"
-     inkscape:cy="267.57737"
+     inkscape:zoom="2.1906604"
+     inkscape:cx="167.30115"
+     inkscape:cy="127.13061"
      inkscape:window-width="1600"
      inkscape:window-height="836"
      inkscape:window-x="0"
@@ -36,7 +38,9 @@
      fit-margin-top="0"
      fit-margin-left="0"
      fit-margin-right="0"
-     fit-margin-bottom="0" />
+     fit-margin-bottom="0"
+     inkscape:showpageshadow="0"
+     inkscape:deskcolor="#d1d1d1" />
   <defs
      id="defs2" />
   <g
@@ -52,14 +56,14 @@
        r="33.486504" />
     <text
        xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:73.8315px;line-height:1.25;font-family:Uroob;-inkscape-font-specification:'Uroob, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#16a34a;fill-opacity:1;stroke:none;stroke-width:1.8458"
-       x="78.064804"
-       y="135.75746"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:95.7471px;line-height:1.25;font-family:Uroob;-inkscape-font-specification:'Uroob, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#3b82f6;fill-opacity:1;stroke:none;stroke-width:2.39369"
+       x="75.969154"
+       y="133.94716"
        id="text3714"><tspan
          sodipodi:role="line"
          id="tspan3712"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:73.8315px;font-family:Uroob;-inkscape-font-specification:'Uroob, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#16a34a;fill-opacity:1;stroke-width:1.8458"
-         x="78.064804"
-         y="135.75746">N</tspan></text>
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:95.7471px;font-family:Uroob;-inkscape-font-specification:'Uroob, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#3b82f6;fill-opacity:1;stroke-width:2.39369"
+         x="75.969154"
+         y="133.94716">c</tspan></text>
   </g>
 </svg>

@@ -4,6 +4,10 @@ import { LayoutComponent } from './layout.component';
 import { DashboardComponent } from '../dashboard/dashboard.component';
 import { LodgesComponent } from '../dashboard/pages/lodges/lodges.component';
 import { UsersComponent } from '../dashboard/pages/users/users.component';
+import { CustomerComponent } from '../dashboard/pages/customer/customer.component';
+import { ProductsComponent } from '../dashboard/pages/products/products.component';
+import { ProductCategoryComponent } from '../dashboard/pages/product-category/product-category.component';
+import { CargoComponent } from '../dashboard/pages/cargo/cargo.component';
 
 const routes: Routes = [
   {
@@ -11,34 +15,36 @@ const routes: Routes = [
     component: LayoutComponent,
     children: [
       {
-        path: 'dashboard',
-        component: DashboardComponent,
+        path: 'customers',
+        component: CustomerComponent,
         loadChildren: () =>
-          import('../dashboard/dashboard.module').then(
-            (m) => m.DashboardModule
+          import('../dashboard/pages/customer/customer.module').then(
+            (m) => m.CustomerModule
           ),
       },
       {
-        path: 'lodges',
-        component: LodgesComponent,
+        path: 'products',
+        component: ProductsComponent,
         loadChildren: () =>
-          import('../dashboard/pages/lodges/lodges.module').then(
-            (m) => m.LodgesModule
+          import('../dashboard/pages/products/products.module').then(
+            (m) => m.ProductsModule
           ),
       },
       {
-        path: 'rooms',
-        component: LodgesComponent,
+        path: 'product-category',
+        component: ProductCategoryComponent,
         loadChildren: () =>
-          import('../dashboard/pages/rooms/rooms.module').then(
-            (m) => m.RoomsModule
+          import('../dashboard/pages/product-category/product-category.module').then(
+            (m) => m.ProductCategoryModule
           ),
       },
       {
-        path:"users",
-        component:UsersComponent,
-        loadChildren:()=> import("../dashboard/pages/users/users.module").then((m)=>m.UsersModule)
+        path:"cargo",
+        component:CargoComponent,
+        loadChildren:()=> import("../dashboard/pages/cargo/cargo.module").then((m)=>m.CargoModule)
       }
+
+
     ],
   },
 ];
