@@ -1,0 +1,41 @@
+<div
+  class="mt-3 flex-col rounded-lg bg-white px-8 py-8 dark:bg-night-700 sm:flex-row"
+>
+  <div class="mb-4 flex items-center justify-between">
+    <div class="flex-col items-center">
+      <h3 class="text-md font-bold text-gray-900 dark:text-night-50">
+        Active Auctions
+      </h3>
+      <span class="text-sm text-gray-400 dark:text-night-300"
+        >Updated 37 minutes ago</span
+      >
+    </div>
+  </div>
+
+  <div class="relative overflow-x-auto">
+    <table class="w-full table-auto" matSort (matSortChange)="sortData($event)">
+      <!--Table head-->
+      <thead class="text-xs uppercase text-gray-400 dark:text-night-300">
+        <tr>
+          <th class="py-3 text-left">Guests</th>
+          <th mat-sort-header="instant_price" class="py-3 text-right">Nationality</th>
+          <th mat-sort-header="price" class="py-3 text-right">City</th>
+          <th mat-sort-header="last_bid" class="py-3 text-right">Address</th>
+
+          <th class="py-3 text-right">View</th>
+        </tr>
+      </thead>
+      <!--end Table head-->
+      <!--Table body-->
+      <tbody>
+        <tr
+          *ngFor="let guest of guests$ | async"
+          [guest]="guest"
+          guest-table-item
+          class="border-b border-dashed border-gray-200 hover:bg-gray-100 dark:border-night-500 dark:hover:bg-night-600"
+        ></tr>
+      </tbody>
+      <!--end::Table body-->
+    </table>
+  </div>
+</div>
