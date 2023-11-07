@@ -1,9 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LayoutComponent } from './layout.component';
-import { DashboardComponent } from '../dashboard/dashboard.component';
-import { LodgesComponent } from '../dashboard/pages/lodges/lodges.component';
-import { UsersComponent } from '../dashboard/pages/users/users.component';
 import { CustomerComponent } from '../dashboard/pages/customer/customer.component';
 import { ProductsComponent } from '../dashboard/pages/products/products.component';
 import { ProductCategoryComponent } from '../dashboard/pages/product-category/product-category.component';
@@ -34,17 +31,18 @@ const routes: Routes = [
         path: 'product-category',
         component: ProductCategoryComponent,
         loadChildren: () =>
-          import('../dashboard/pages/product-category/product-category.module').then(
-            (m) => m.ProductCategoryModule
-          ),
+          import(
+            '../dashboard/pages/product-category/product-category.module'
+          ).then((m) => m.ProductCategoryModule),
       },
       {
-        path:"cargo",
-        component:CargoComponent,
-        loadChildren:()=> import("../dashboard/pages/cargo/cargo.module").then((m)=>m.CargoModule)
-      }
-
-
+        path: 'cargo',
+        component: CargoComponent,
+        loadChildren: () =>
+          import('../dashboard/pages/cargo/cargo.module').then(
+            (m) => m.CargoModule
+          ),
+      },
     ],
   },
 ];
