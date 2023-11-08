@@ -8,6 +8,7 @@ import { CustomerEffect } from './store/customer.effect';
 import { EffectsModule } from '@ngrx/effects';
 import { customerReducer } from './store/customer.reducer';
 import { HttpClientModule } from '@angular/common/http';
+import { ProductCategoryModule } from '../product-category/product-category.module';
 
 @NgModule({
   declarations: [],
@@ -16,7 +17,8 @@ import { HttpClientModule } from '@angular/common/http';
     CustomerRoutingModule,
     StoreModule.forFeature('customers', customerReducer),
     EffectsModule.forFeature([CustomerEffect]),
-    HttpClientModule
+    HttpClientModule,
+    ProductCategoryModule,
   ],
 })
 export class CustomerModule {}

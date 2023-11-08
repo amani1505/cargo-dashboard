@@ -11,11 +11,11 @@ export class CustomerService {
 
   // CREATE
   createCustomer(payload: any) {
-    return this._httpClient.post<any>(`${environment.apiUrl}customer`, payload);
+    return this._httpClient.post<any>(`${environment.apiUrl}mteja`, payload);
   }
 
   // READ
   getAllCustomer() {
-    return this._httpClient.get<Customer[]>(`${environment.apiUrl}customer`);
+    return this._httpClient.get<Customer[]>(`${environment.apiUrl}mteja`);
   }
 }

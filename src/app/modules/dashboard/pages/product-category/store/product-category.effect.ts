@@ -29,15 +29,17 @@ export class ProductCategoryEffect {
         this._appStore.dispatch(
           setAPIStatus({ apiStatus: { apiResponseMessage: '', apiStatus: '' } })
         );
+
         return this._productCategoryService
           .createProductCategory(action.newProductCategory)
           .pipe(
             map((data) => {
-              this._appStore.dispatch(
+                          this._appStore.dispatch(
                 setAPIStatus({
                   apiStatus: { apiResponseMessage: '', apiStatus: 'success' },
                 })
               );
+            
               return saveProductCategoryAPISuccess({
                 newProductCategory: data,
               });

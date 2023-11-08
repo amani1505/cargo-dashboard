@@ -6,6 +6,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { CargoEffect } from './store/cargo.effect';
+import { CustomerModule } from '../customer/customer.module';
+import { ProductCategoryModule } from '../product-category/product-category.module';
 
 @NgModule({
   declarations: [],
@@ -15,6 +17,8 @@ import { CargoEffect } from './store/cargo.effect';
     StoreModule.forFeature('cargos', cargoReducer),
     EffectsModule.forFeature([CargoEffect]),
     HttpClientModule,
+    CustomerModule,
+    ProductCategoryModule,
   ],
 })
 export class CargoModule {}

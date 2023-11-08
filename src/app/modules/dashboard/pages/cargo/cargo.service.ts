@@ -11,11 +11,11 @@ export class CargoService {
 
   // CREATE
   createCargo(payload: any) {
-    return this._httpClient.post<any>(`${environment.apiUrl}cargo`, payload);
+    return this._httpClient.post<any>(`${environment.apiUrl}mzigo`, payload);
   }
 
   // READ
   getAllCargo() {
-    return this._httpClient.get<Cargo[]>(`${environment.apiUrl}cargo`);
+    return this._httpClient.get<Cargo[]>(`${environment.apiUrl}mzigo`);
   }
 }

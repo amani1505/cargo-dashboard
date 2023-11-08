@@ -4,11 +4,12 @@ import { AppComponent } from './app/app.component';
 import { AppRoutingModule } from './app/app-routing.module';
 import { BrowserModule, bootstrapApplication } from '@angular/platform-browser';
 import { provideAnimations } from '@angular/platform-browser/animations';
-import { StoreModule, StoreRootModule, provideStore } from '@ngrx/store';
+import { StoreModule, provideStore } from '@ngrx/store';
 import { EffectsModule, provideEffects } from '@ngrx/effects';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { HttpClientModule } from '@angular/common/http';
 import { appReducer } from './app/shared/store/app.reducer';
+import { appConfig } from './app/app.config';
 
 if (environment.production) {
   enableProdMode();
@@ -18,21 +19,9 @@ if (environment.production) {
   }
 }
 
-bootstrapApplication(AppComponent, {
-  providers: [
-    importProvidersFrom(
-      BrowserModule,
-      AppRoutingModule,
-      StoreModule.forRoot({appState:appReducer }),
-      EffectsModule.forRoot(),
-      HttpClientModule
-    ),
-    provideAnimations(),
-    provideStore(),
-    provideEffects(),
-    provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
-  ],
-}).catch((err) => console.error(err));
+bootstrapApplication(AppComponent, appConfig).catch((err) =>
+  console.error(err)
+);
 
 function selfXSSWarning() {
   setTimeout(() => {

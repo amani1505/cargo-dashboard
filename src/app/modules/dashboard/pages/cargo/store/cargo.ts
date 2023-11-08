@@ -3,6 +3,7 @@ import { ProductCategory } from '../../product-category/store/product-category';
 
 export interface Cargo {
   id: string;
+  cargo_no:string
   uzito: number;
   image: string;
   tarehe_kuingia: string;
