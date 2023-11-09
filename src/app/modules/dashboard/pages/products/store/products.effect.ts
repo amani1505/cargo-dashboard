@@ -6,10 +6,14 @@ import { AppState } from 'src/app/shared/store/app-state';
 import { setAPIStatus } from 'src/app/shared/store/app.action';
 import { ProductsService } from '../products.service';
 import {
+  deleteProductAPISuccess,
+  invokeDeleteProductAPI,
   invokeProductsAPI,
   invokeSaveNewProductsAPI,
+  invokeUpdateProductAPI,
   productsFetchAPISuccess,
   saveProductsAPISuccess,
+  updateProductAPISucess,
 } from './products.action';
 import { selectProducts } from './products.selector';
 
@@ -59,4 +63,48 @@ export class ProductsEffect {
       })
     )
   );
+
+  updateProductAPI$ = createEffect(() => {
+    return this._actions$.pipe(
+      ofType(invokeUpdateProductAPI),
+      switchMap((action) => {
+        this._appStore.dispatch(
+          setAPIStatus({ apiStatus: { apiResponseMessage: '', apiStatus: '' } })
+        );
+        return this._productsService.updateProduct(action.updateProduct).pipe(
+          map((data) => {
+            this._appStore.dispatch(
+              setAPIStatus({
+                apiStatus: { apiResponseMessage: '', apiStatus: 'success' },
+              })
+            );
+            return updateProductAPISucess({
+              updateProduct: data,
+            });
+          })
+        );
+      })
+    );
+  });
+
+  deleteProductAPI$ = createEffect(() => {
+    return this._actions$.pipe(
+      ofType(invokeDeleteProductAPI),
+      switchMap((actions) => {
+        this._appStore.dispatch(
+          setAPIStatus({ apiStatus: { apiResponseMessage: '', apiStatus: '' } })
+        );
+        return this._productsService.deleteProduct(actions.id).pipe(
+          map(() => {
+            this._appStore.dispatch(
+              setAPIStatus({
+                apiStatus: { apiResponseMessage: '', apiStatus: 'success' },
+              })
+            );
+            return deleteProductAPISuccess({ id: actions.id });
+          })
+        );
+      })
+    );
+  });
 }

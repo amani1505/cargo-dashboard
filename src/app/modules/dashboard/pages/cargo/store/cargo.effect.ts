@@ -7,9 +7,13 @@ import { setAPIStatus } from 'src/app/shared/store/app.action';
 import { CargoService } from '../cargo.service';
 import {
   cargoFetchAPISuccess,
+  deleteCargoAPISuccess,
   invokeCargoAPI,
+  invokeDeleteCargoAPI,
   invokeSaveNewCargoAPI,
+  invokeUpdateCargoAPI,
   saveCargoAPISuccess,
+  updateCargoAPISucess,
 } from './cargo.action';
 import { selectCargos } from './cargo.selector';
 
@@ -57,4 +61,48 @@ export class CargoEffect {
       })
     )
   );
+
+  updateCargoAPI$ = createEffect(() => {
+    return this._actions$.pipe(
+      ofType(invokeUpdateCargoAPI),
+      switchMap((action) => {
+        this._appStore.dispatch(
+          setAPIStatus({ apiStatus: { apiResponseMessage: '', apiStatus: '' } })
+        );
+        return this._cargoService.updateCargo(action.updateCargo).pipe(
+          map((data) => {
+            this._appStore.dispatch(
+              setAPIStatus({
+                apiStatus: { apiResponseMessage: '', apiStatus: 'success' },
+              })
+            );
+            return updateCargoAPISucess({
+              updateCargo: data,
+            });
+          })
+        );
+      })
+    );
+  });
+
+  deleteCargoAPI$ = createEffect(() => {
+    return this._actions$.pipe(
+      ofType(invokeDeleteCargoAPI),
+      switchMap((actions) => {
+        this._appStore.dispatch(
+          setAPIStatus({ apiStatus: { apiResponseMessage: '', apiStatus: '' } })
+        );
+        return this._cargoService.deleteCargo(actions.id).pipe(
+          map(() => {
+            this._appStore.dispatch(
+              setAPIStatus({
+                apiStatus: { apiResponseMessage: '', apiStatus: 'success' },
+              })
+            );
+            return deleteCargoAPISuccess({ id: actions.id });
+          })
+        );
+      })
+    );
+  });
 }

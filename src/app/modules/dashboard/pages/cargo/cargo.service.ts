@@ -9,13 +9,22 @@ import { Cargo } from './store/cargo';
 export class CargoService {
   constructor(private _httpClient: HttpClient) {}
 
-  // CREATE
   createCargo(payload: any) {
     return this._httpClient.post<any>(`${environment.apiUrl}mzigo`, payload);
   }
 
-  // READ
   getAllCargo() {
     return this._httpClient.get<Cargo[]>(`${environment.apiUrl}mzigo`);
+  }
+
+  updateCargo(payload: any) {
+    return this._httpClient.patch(
+      `${environment.apiUrl}mzigo/${payload.id}`,
+      payload
+    );
+  }
+
+  deleteCargo(id: string) {
+    return this._httpClient.delete(`${environment.apiUrl}mzigo/${id}`);
   }
 }

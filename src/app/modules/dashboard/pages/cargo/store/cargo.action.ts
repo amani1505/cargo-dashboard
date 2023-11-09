@@ -21,3 +21,25 @@ export const cargoFetchAPISuccess = createAction(
   '[Cargo API] Fetch Cargo API Success',
   props<{ allCargos: Cargo[] }>()
 );
+
+// UPDATE
+export const invokeUpdateCargoAPI = createAction(
+  '[Cargo API] Inovke update Cargo api',
+  props<{ updateCargo: any }>()
+);
+
+export const updateCargoAPISucess = createAction(
+  '[Cargo API] update  Cargo success',
+  props<{ updateCargo: any }>()
+);
+
+// DELETE
+export const invokeDeleteCargoAPI = createAction(
+  '[Cargo API] Inovke delete Cargo api',
+  props<{ id: string }>()
+);
+
+export const deleteCargoAPISuccess = createAction(
+  '[Cargo API] deleted Cargo api success',
+  props<{ id: string }>()
+);

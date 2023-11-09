@@ -9,13 +9,22 @@ import { Products } from './store/products';
 export class ProductsService {
   constructor(private _httpClient: HttpClient) {}
 
-  // CREATE
   createProduct(payload: any) {
     return this._httpClient.post<any>(`${environment.apiUrl}products`, payload);
   }
 
-  // READ
   getAllProducts() {
     return this._httpClient.get<Products[]>(`${environment.apiUrl}products`);
+  }
+
+  updateProduct(payload: any) {
+    return this._httpClient.patch(
+      `${environment.apiUrl}products/${payload.id}`,
+      payload
+    );
+  }
+
+  deleteProduct(id: string) {
+    return this._httpClient.delete(`${environment.apiUrl}products/${id}`);
   }
 }

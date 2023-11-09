@@ -21,3 +21,25 @@ export const productsFetchAPISuccess = createAction(
   '[Products API] Fetch Products API Success',
   props<{ allProducts: Products[] }>()
 );
+
+// UPDATE
+export const invokeUpdateProductAPI = createAction(
+  '[Products API] Inovke update Product api',
+  props<{ updateProduct: any }>()
+);
+
+export const updateProductAPISucess = createAction(
+  '[Products API] update  Product success',
+  props<{ updateProduct: any }>()
+);
+
+// DELETE
+export const invokeDeleteProductAPI = createAction(
+  '[Products API] Inovke delete Product api',
+  props<{ id: string }>()
+);
+
+export const deleteProductAPISuccess = createAction(
+  '[Products API] deleted Product api success',
+  props<{ id: string }>()
+);

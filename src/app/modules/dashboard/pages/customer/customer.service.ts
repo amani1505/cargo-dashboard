@@ -9,13 +9,25 @@ import { Customer } from './store/customer';
 export class CustomerService {
   constructor(private _httpClient: HttpClient) {}
 
-  // CREATE
+
   createCustomer(payload: any) {
     return this._httpClient.post<any>(`${environment.apiUrl}mteja`, payload);
   }
 
-  // READ
   getAllCustomer() {
     return this._httpClient.get<Customer[]>(`${environment.apiUrl}mteja`);
+  }
+
+  updateCustomer(payload: any) {
+    return this._httpClient.patch(
+      `${environment.apiUrl}mteja/${payload.id}`,
+      payload
+    );
+  }
+
+  deleteCustomer(id: string) {
+    return this._httpClient.delete(
+      `${environment.apiUrl}mteja/${id}`
+    );
   }
 }

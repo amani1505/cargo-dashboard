@@ -7,9 +7,13 @@ import { setAPIStatus } from 'src/app/shared/store/app.action';
 import { CustomerService } from '../customer.service';
 import {
   customerFetchAPISuccess,
+  deleteCustomerAPISuccess,
   invokeCustomerAPI,
+  invokeDeleteCustomerAPI,
   invokeSaveNewCustomerAPI,
+  invokeUpdateCustomerAPI,
   saveCustomerAPISuccess,
+  updateCustomerAPISucess,
 } from './customer.action';
 import { selectCustomers } from './customer.selector';
 
@@ -57,4 +61,48 @@ export class CustomerEffect {
       })
     )
   );
+
+  updateCustomerAPI$ = createEffect(() => {
+    return this._actions$.pipe(
+      ofType(invokeUpdateCustomerAPI),
+      switchMap((action) => {
+        this._appStore.dispatch(
+          setAPIStatus({ apiStatus: { apiResponseMessage: '', apiStatus: '' } })
+        );
+        return this._customerService.updateCustomer(action.updateCustomer).pipe(
+          map((data) => {
+            this._appStore.dispatch(
+              setAPIStatus({
+                apiStatus: { apiResponseMessage: '', apiStatus: 'success' },
+              })
+            );
+            return updateCustomerAPISucess({
+              updateCustomer: data,
+            });
+          })
+        );
+      })
+    );
+  });
+
+  deleteCustomerAPI$ = createEffect(() => {
+    return this._actions$.pipe(
+      ofType(invokeDeleteCustomerAPI),
+      switchMap((actions) => {
+        this._appStore.dispatch(
+          setAPIStatus({ apiStatus: { apiResponseMessage: '', apiStatus: '' } })
+        );
+        return this._customerService.deleteCustomer(actions.id).pipe(
+          map(() => {
+            this._appStore.dispatch(
+              setAPIStatus({
+                apiStatus: { apiResponseMessage: '', apiStatus: 'success' },
+              })
+            );
+            return deleteCustomerAPISuccess({ id: actions.id });
+          })
+        );
+      })
+    );
+  });
 }

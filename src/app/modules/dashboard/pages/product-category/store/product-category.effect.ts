@@ -6,10 +6,14 @@ import { AppState } from 'src/app/shared/store/app-state';
 import { setAPIStatus } from 'src/app/shared/store/app.action';
 import { ProductCategoryService } from '../product-category.service';
 import {
+  deleteProductCategoryAPISuccess,
+  invokeDeleteProductCategoryAPI,
   invokeProductCategoryAPI,
   invokeSaveNewProductCategoryAPI,
+  invokeUpdateProductCategoryAPI,
   productCategoryFetchAPISuccess,
   saveProductCategoryAPISuccess,
+  updateProductCategoryAPISucess,
 } from './product-category.action';
 import { selectProductCategories } from './product-category.selector';
 
@@ -34,12 +38,12 @@ export class ProductCategoryEffect {
           .createProductCategory(action.newProductCategory)
           .pipe(
             map((data) => {
-                          this._appStore.dispatch(
+              this._appStore.dispatch(
                 setAPIStatus({
                   apiStatus: { apiResponseMessage: '', apiStatus: 'success' },
                 })
               );
-            
+
               return saveProductCategoryAPISuccess({
                 newProductCategory: data,
               });
@@ -67,4 +71,52 @@ export class ProductCategoryEffect {
       })
     )
   );
+
+  updateProductCategoryAPI$ = createEffect(() => {
+    return this._actions$.pipe(
+      ofType(invokeUpdateProductCategoryAPI),
+      switchMap((action) => {
+        this._appStore.dispatch(
+          setAPIStatus({ apiStatus: { apiResponseMessage: '', apiStatus: '' } })
+        );
+        return this._productCategoryService
+          .updateProductCategory(action.updateProductCategory)
+          .pipe(
+            map((data) => {
+              this._appStore.dispatch(
+                setAPIStatus({
+                  apiStatus: { apiResponseMessage: '', apiStatus: 'success' },
+                })
+              );
+              return updateProductCategoryAPISucess({
+                updateProductCategory: data,
+              });
+            })
+          );
+      })
+    );
+  });
+
+  deleteProductCategoryAPI$ = createEffect(() => {
+    return this._actions$.pipe(
+      ofType(invokeDeleteProductCategoryAPI),
+      switchMap((actions) => {
+        this._appStore.dispatch(
+          setAPIStatus({ apiStatus: { apiResponseMessage: '', apiStatus: '' } })
+        );
+        return this._productCategoryService
+          .deleteProductCategory(actions.id)
+          .pipe(
+            map(() => {
+              this._appStore.dispatch(
+                setAPIStatus({
+                  apiStatus: { apiResponseMessage: '', apiStatus: 'success' },
+                })
+              );
+              return deleteProductCategoryAPISuccess({ id: actions.id });
+            })
+          );
+      })
+    );
+  });
 }

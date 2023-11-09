@@ -9,7 +9,6 @@ import { ProductCategory } from './store/product-category';
 export class ProductCategoryService {
   constructor(private _httpClient: HttpClient) {}
 
-  // CREATE
   createProductCategory(payload: any) {
     return this._httpClient.post<any>(
       `${environment.apiUrl}product-category`,
@@ -17,10 +16,22 @@ export class ProductCategoryService {
     );
   }
 
-  // READ
   getAllProductCategory() {
     return this._httpClient.get<ProductCategory[]>(
       `${environment.apiUrl}product-category`
+    );
+  }
+
+  updateProductCategory(payload: any) {
+    return this._httpClient.patch(
+      `${environment.apiUrl}product-category/${payload.id}`,
+      payload
+    );
+  }
+
+  deleteProductCategory(id: string) {
+    return this._httpClient.delete(
+      `${environment.apiUrl}product-category/${id}`
     );
   }
 }
