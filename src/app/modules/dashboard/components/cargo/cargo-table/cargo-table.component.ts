@@ -8,10 +8,15 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { AngularSvgIconModule } from 'angular-svg-icon';
 import { AddCargoComponent } from '../add-cargo/add-cargo.component';
 import { Cargo } from '../../../pages/cargo/store/cargo';
-import { Observable } from 'rxjs';
+import { Observable, take } from 'rxjs';
 import { Store, select } from '@ngrx/store';
-import { selectCargos } from '../../../pages/cargo/store/cargo.selector';
+import {
+  selectCargoById,
+  selectCargos,
+} from '../../../pages/cargo/store/cargo.selector';
 import { invokeCargoAPI } from '../../../pages/cargo/store/cargo.action';
+import { UpdateCargoComponent } from '../update-cargo/update-cargo.component';
+import { DeleteCargoComponent } from '../delete-cargo/delete-cargo.component';
 
 @Component({
   selector: 'app-cargo-table',
@@ -24,6 +29,8 @@ import { invokeCargoAPI } from '../../../pages/cargo/store/cargo.action';
     MatTableModule,
     AngularSvgIconModule,
     AddCargoComponent,
+    UpdateCargoComponent,
+    DeleteCargoComponent,
   ],
   templateUrl: './cargo-table.component.html',
   styleUrls: ['./cargo-table.component.scss'],
@@ -68,10 +75,28 @@ export class CargoTableComponent implements OnInit, AfterViewInit {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
-  addCustomer() {
+  addCargo() {
     const dialogRef = this._dialog.open(AddCargoComponent, {
       width: '60%',
       disableClose: true,
+    });
+  }
+  updateCargo(id: string) {
+    let fetchCargo$ = this._store.pipe(select(selectCargoById(id)));
+    fetchCargo$.subscribe((data) => {
+      this._dialog.open(UpdateCargoComponent, {
+        data: data,
+        width: '60%',
+      });
+    });
+  }
+  deleteCargo(id: string) {
+    let fetchCargo$ = this._store.pipe(select(selectCargoById(id)));
+    fetchCargo$.pipe(take(1)).subscribe((data) => {
+      this._dialog.open(DeleteCargoComponent, {
+        data: data,
+        width: '40%',
+      });
     });
   }
 }

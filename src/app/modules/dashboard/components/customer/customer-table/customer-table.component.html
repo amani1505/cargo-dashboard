@@ -4,7 +4,7 @@
   <div class="mb-4 flex items-center justify-between">
     <div class="flex-col items-center">
       <h3 class="text-md font-bold text-gray-900 dark:text-night-50">
-        Products
+       Customers
       </h3>
       <!-- <span class="text-sm text-gray-400 dark:text-night-300"
         >Updated 37 minutes ago</span 
@@ -14,7 +14,7 @@
       class="flex-none rounded-md bg-gray-100 px-4 py-2.5 text-xs font-semibold text-gray-500 hover:bg-gray-200 dark:bg-night-600 dark:text-night-200 dark:hover:bg-night-500"
       (click)="addCustomer()"
     >
-      Add Product
+      Add Customer
     </button>
   </div>
   <div class="relative overflow-x-auto">
@@ -47,7 +47,10 @@
           *matCellDef="let row; let i = index"
           class="px-4 py-2 text-left md:px-6 lg:px-8"
         >
-          <ng-container *ngIf="column === 'S/N'">{{ i + 1 }}</ng-container>
+          <ng-container *ngIf="column === 'S/N'"> <span
+            class="text-sm  text-gray-400 dark:text-night-200"
+            >{{ 1 + i }}
+          </span></ng-container>
 
           <ng-container
             [ngSwitch]="column"
@@ -55,25 +58,25 @@
           >
             <td class="py-2 pl-2 text-center" *ngSwitchCase="'fullname'">
               <span
-                class="text-sm font-semibold text-gray-400 dark:text-night-200"
+                class="text-sm  text-gray-400 dark:text-night-200"
                 >{{ row.jina_la_mteja }}
               </span>
             </td>
             <td class="py-2 pl-2 text-center" *ngSwitchCase="'location'">
               <span
-                class="text-sm font-semibold text-gray-400 dark:text-night-200"
+                class="text-sm  text-gray-400 dark:text-night-200"
                 >{{ row.location_ya_mteja }}
               </span>
             </td>
             <td class="py-2 pl-2 text-center" *ngSwitchCase="'mobile number'">
               <span
-                class="text-sm font-semibold text-gray-400 dark:text-night-200"
+                class="text-sm  text-gray-400 dark:text-night-200"
                 >{{ row.namba_ya_simu }}
               </span>
             </td>
             <td class="py-2 pl-2 text-center" *ngSwitchCase="'category'">
               <span
-                class="text-sm font-semibold text-gray-400 dark:text-night-200"
+                class="text-sm  text-gray-400 dark:text-night-200"
                 >{{ row.category?.name }}
               </span>
             </td>
@@ -81,6 +84,7 @@
             <td class="py-2 pl-2 text-center" *ngSwitchCase="'action'">
               <div class="flex justify-end gap-2">
                 <button
+                  (click)="updateCustomer(row.id)"
                   class="flex h-7 w-7 items-center justify-center rounded-md bg-blue-200 text-blue-400 dark:bg-blue-500 dark:text-blue-300"
                 >
                   <svg-icon
@@ -90,6 +94,7 @@
                   </svg-icon>
                 </button>
                 <button
+                  (click)="deleteCustomer(row.id)"
                   class="flex h-7 w-7 items-center justify-center rounded-md bg-red-200 text-red-400 dark:bg-red-500 dark:text-red-300"
                 >
                   <svg-icon

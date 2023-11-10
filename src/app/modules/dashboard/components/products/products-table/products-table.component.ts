@@ -7,10 +7,15 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { AngularSvgIconModule } from 'angular-svg-icon';
 import { AddProductComponent } from '../add-product/add-product.component';
 import { Products } from '../../../pages/products/store/products';
-import { Observable } from 'rxjs';
+import { Observable, take } from 'rxjs';
 import { Store, select } from '@ngrx/store';
-import { selectProducts } from '../../../pages/products/store/products.selector';
+import {
+  selectProductById,
+  selectProducts,
+} from '../../../pages/products/store/products.selector';
 import { invokeProductsAPI } from '../../../pages/products/store/products.action';
+import { DeleteProductComponent } from '../delete-product/delete-product.component';
+import { UpdateProductComponent } from '../update-product/update-product.component';
 
 @Component({
   selector: 'app-products-table',
@@ -34,7 +39,7 @@ export class ProductsTableComponent implements OnInit, AfterViewInit {
   totalItems = 0;
   showFirstLastButtons = true;
   pageSizeOptions: number[] = [5, 10, 50, 100];
-  columns: string[] = ["S/N",'name','category','action'];
+  columns: string[] = ['S/N', 'name', 'category', 'action'];
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
@@ -53,7 +58,7 @@ export class ProductsTableComponent implements OnInit, AfterViewInit {
     });
   }
 
-    ngAfterViewInit() {
+  ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
@@ -61,6 +66,24 @@ export class ProductsTableComponent implements OnInit, AfterViewInit {
     const dialogRef = this._dialog.open(AddProductComponent, {
       width: '60%',
       disableClose: true,
+    });
+  }
+  updateProduct(id: string) {
+    let fetchCargo$ = this._store.pipe(select(selectProductById(id)));
+    fetchCargo$.pipe(take(1)).subscribe((data) => {
+      const dialogRef = this._dialog.open(UpdateProductComponent, {
+        data: data,
+        width: '60%',
+      });
+    });
+  }
+  deleteProduct(id: string) {
+    let fetchCargo$ = this._store.pipe(select(selectProductById(id)));
+    fetchCargo$.pipe(take(1)).subscribe((data) => {
+      this._dialog.open(DeleteProductComponent, {
+        data: data,
+        width: '40%',
+      });
     });
   }
 }

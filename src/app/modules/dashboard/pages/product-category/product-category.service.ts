@@ -23,6 +23,7 @@ export class ProductCategoryService {
   }
 
   updateProductCategory(payload: any) {
+  
     return this._httpClient.patch(
       `${environment.apiUrl}product-category/${payload.id}`,
       payload

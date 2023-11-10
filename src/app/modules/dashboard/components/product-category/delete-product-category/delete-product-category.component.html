@@ -1,1 +1,29 @@
-<p>delete-product-category works!</p>
+
+<div class="">
+    <h1 mat-dialog-title class="text-center text-2xl font-bold tracking-wider">
+      Confirm Delete
+    </h1>
+  </div>
+  <mat-dialog-content>
+    <div class="my-3 border-y p-5">Are You Sure to delete this Product?</div>
+  
+    <div class="mt-4 flex flex-row-reverse gap-3">
+      <div>
+        <button
+          class="w-full flex-none rounded bg-primary-500 px-4 py-2.5 text-xs font-semibold text-white hover:bg-primary-600 dark:bg-primary-500 dark:text-white dark:hover:bg-primary-600"
+          (click)="deleteProductCategory();"
+        >
+          Delete
+        </button>
+      </div>
+      <div>
+        <button
+          class="w-full flex-none rounded bg-red-500 px-4 py-2.5 text-xs font-semibold text-white hover:bg-red-600 dark:bg-red-500 dark:text-white dark:hover:bg-red-600"
+          (click)="closeDialog()"
+        >
+          Cancel
+        </button>
+      </div>
+    </div>
+  </mat-dialog-content>
+  

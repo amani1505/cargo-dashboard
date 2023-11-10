@@ -69,18 +69,20 @@ export class CargoEffect {
         this._appStore.dispatch(
           setAPIStatus({ apiStatus: { apiResponseMessage: '', apiStatus: '' } })
         );
-        return this._cargoService.updateCargo(action.updateCargo).pipe(
-          map((data) => {
-            this._appStore.dispatch(
-              setAPIStatus({
-                apiStatus: { apiResponseMessage: '', apiStatus: 'success' },
-              })
-            );
-            return updateCargoAPISucess({
-              updateCargo: data,
-            });
-          })
-        );
+        return this._cargoService
+          .updateCargo(action.id, action.updateCargo)
+          .pipe(
+            map((data) => {
+              this._appStore.dispatch(
+                setAPIStatus({
+                  apiStatus: { apiResponseMessage: '', apiStatus: 'success' },
+                })
+              );
+              return updateCargoAPISucess({
+                updateCargo: data,
+              });
+            })
+          );
       })
     );
   });

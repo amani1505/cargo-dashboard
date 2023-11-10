@@ -7,10 +7,15 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { AngularSvgIconModule } from 'angular-svg-icon';
 import { AddCustomerComponent } from '../add-customer/add-customer.component';
 import { Customer } from '../../../pages/customer/store/customer';
-import { Observable } from 'rxjs';
+import { Observable, take } from 'rxjs';
 import { Store, select } from '@ngrx/store';
-import { selectCustomers } from '../../../pages/customer/store/customer.selector';
+import {
+  selectCustomerById,
+  selectCustomers,
+} from '../../../pages/customer/store/customer.selector';
 import { invokeCustomerAPI } from '../../../pages/customer/store/customer.action';
+import { UpdateCustomerComponent } from '../update-customer/update-customer.component';
+import { DeleteCustomerComponent } from '../delete-customer/delete-customer.component';
 
 @Component({
   selector: 'app-customer-table',
@@ -61,7 +66,7 @@ export class CustomerTableComponent implements OnInit, AfterViewInit {
     });
   }
 
-    ngAfterViewInit() {
+  ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
@@ -72,7 +77,23 @@ export class CustomerTableComponent implements OnInit, AfterViewInit {
     });
   }
 
-
-
-
+  updateCustomer(id: string) {
+    let fetchCargo$ = this._store.pipe(select(selectCustomerById(id)));
+    fetchCargo$.pipe(take(1)).subscribe((data) => {
+      const dialogRef = this._dialog.open(UpdateCustomerComponent, {
+        data: data,
+        width: '60%',
+      });
+      dialogRef.afterClosed().subscribe(() => {});
+    });
+  }
+  deleteCustomer(id: string) {
+    let fetchCargo$ = this._store.pipe(select(selectCustomerById(id)));
+    fetchCargo$.pipe(take(1)).subscribe((data) => {
+      this._dialog.open(DeleteCustomerComponent, {
+        data: data,
+        width: '40%',
+      });
+    });
+  }
 }

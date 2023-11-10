@@ -3,7 +3,7 @@ import { Products } from './products';
 
 export const selectProducts = createFeatureSelector<Products[]>('products');
 
-export const selectProductCategoryById = (productById: string) =>
+export const selectProductById = (productById: string) =>
   createSelector(selectProducts, (product: Products[]) => {
     var productId = product.filter((_) => _.id == productById);
     if (productId.length == 0) {

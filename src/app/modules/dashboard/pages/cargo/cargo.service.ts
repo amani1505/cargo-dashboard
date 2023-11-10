@@ -10,18 +10,15 @@ export class CargoService {
   constructor(private _httpClient: HttpClient) {}
 
   createCargo(payload: any) {
-    return this._httpClient.post<any>(`${environment.apiUrl}mzigo`, payload);
+       return this._httpClient.post<any>(`${environment.apiUrl}mzigo`, payload);
   }
 
   getAllCargo() {
     return this._httpClient.get<Cargo[]>(`${environment.apiUrl}mzigo`);
   }
 
-  updateCargo(payload: any) {
-    return this._httpClient.patch(
-      `${environment.apiUrl}mzigo/${payload.id}`,
-      payload
-    );
+  updateCargo(id: string, payload: any) {
+    return this._httpClient.patch(`${environment.apiUrl}mzigo/${id}`, payload);
   }
 
   deleteCargo(id: string) {

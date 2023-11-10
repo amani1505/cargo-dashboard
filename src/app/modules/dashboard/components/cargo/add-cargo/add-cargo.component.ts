@@ -61,6 +61,7 @@ export class AddCargoComponent implements OnInit {
       return;
     }
     const cargoFormValue = { ...this.cargoForm.value, image: this.image };
+   
 
     const cargoFormData = new FormData();
 

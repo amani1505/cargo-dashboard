@@ -47,21 +47,23 @@
           *matCellDef="let row; let i = index"
           class="px-4 py-2 text-left md:px-6 lg:px-8"
         >
-          <ng-container *ngIf="column === 'S/N'">{{ i + 1 }}</ng-container>
+          <ng-container *ngIf="column === 'S/N'">
+            <span class="text-sm text-gray-400 dark:text-night-200"
+              >{{ 1 + i }}
+            </span></ng-container
+          >
 
           <ng-container
             [ngSwitch]="column"
             class="px-4 py-2 text-center md:px-6 lg:px-8"
           >
             <td class="py-2 pl-2 text-center" *ngSwitchCase="'name'">
-              <span
-                class="text-sm font-semibold text-gray-400 dark:text-night-200"
+              <span class="text-sm text-gray-400 dark:text-night-200"
                 >{{ row.name }}
               </span>
             </td>
             <td class="py-2 pl-2 text-center" *ngSwitchCase="'category'">
-              <span
-                class="text-sm font-semibold text-gray-400 dark:text-night-200"
+              <span class="text-sm text-gray-400 dark:text-night-200"
                 >{{ row.category?.name }}
               </span>
             </td>
@@ -69,6 +71,7 @@
             <td class="py-2 pl-2 text-center" *ngSwitchCase="'action'">
               <div class="flex justify-end gap-2">
                 <button
+                  (click)="updateProduct(row.id)"
                   class="flex h-7 w-7 items-center justify-center rounded-md bg-blue-200 text-blue-400 dark:bg-blue-500 dark:text-blue-300"
                 >
                   <svg-icon
@@ -78,6 +81,7 @@
                   </svg-icon>
                 </button>
                 <button
+                  (click)="deleteProduct(row.id)"
                   class="flex h-7 w-7 items-center justify-center rounded-md bg-red-200 text-red-400 dark:bg-red-500 dark:text-red-300"
                 >
                   <svg-icon

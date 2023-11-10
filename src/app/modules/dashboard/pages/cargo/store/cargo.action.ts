@@ -25,7 +25,7 @@ export const cargoFetchAPISuccess = createAction(
 // UPDATE
 export const invokeUpdateCargoAPI = createAction(
   '[Cargo API] Inovke update Cargo api',
-  props<{ updateCargo: any }>()
+  props<{ id:string,updateCargo: any }>()
 );
 
 export const updateCargoAPISucess = createAction(
@@ -35,7 +35,7 @@ export const updateCargoAPISucess = createAction(
 
 // DELETE
 export const invokeDeleteCargoAPI = createAction(
-  '[Cargo API] Inovke delete Cargo api',
+  '[Cargo API] Invoke delete Cargo api',
   props<{ id: string }>()
 );
 

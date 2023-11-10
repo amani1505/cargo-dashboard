@@ -18,7 +18,7 @@
     </button>
   </div>
   <div class="relative overflow-x-auto">
-     <table
+    <table
       mat-table
       [dataSource]="dataSource"
       matSort
@@ -34,7 +34,12 @@
           {{ column === "number" ? "S/N" : column }}
         </th>
 
-        <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-center">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header
+          class="text-center"
+        >
           {{ column }}
         </th>
         <td
@@ -42,7 +47,10 @@
           *matCellDef="let row; let i = index"
           class="px-4 py-2 text-left md:px-6 lg:px-8"
         >
-          <ng-container *ngIf="column === 'S/N'">{{ i + 1 }}</ng-container>
+          <ng-container *ngIf="column === 'S/N'">  <span
+            class="text-sm  text-gray-400 dark:text-night-200"
+            >{{ 1 +i }}
+          </span></ng-container>
           <!-- Apply appropriate display for each column-->
           <ng-container
             [ngSwitch]="column"
@@ -50,7 +58,7 @@
           >
             <td class="py-2 pl-2 text-center" *ngSwitchCase="'name'">
               <span
-                class="text-sm font-semibold text-gray-400 dark:text-night-200"
+                class="text-sm  text-gray-400 dark:text-night-200"
                 >{{ row.name }}
               </span>
             </td>
@@ -58,6 +66,7 @@
             <td class="py-2 pl-2 text-center" *ngSwitchCase="'action'">
               <div class="flex justify-end gap-2">
                 <button
+                  (click)="updateProductCategory(row.id)"
                   class="flex h-7 w-7 items-center justify-center rounded-md bg-blue-200 text-blue-400 dark:bg-blue-500 dark:text-blue-300"
                 >
                   <svg-icon
@@ -67,6 +76,7 @@
                   </svg-icon>
                 </button>
                 <button
+                  (click)="deleteProductCategory(row.id)"
                   class="flex h-7 w-7 items-center justify-center rounded-md bg-red-200 text-red-400 dark:bg-red-500 dark:text-red-300"
                 >
                   <svg-icon
@@ -84,21 +94,21 @@
       <tr
         mat-header-row
         *matHeaderRowDef="columns"
-        class="text-xs capitalize text-gray-400 text dark:text-night-300 w-full"
+        class="text w-full text-xs capitalize text-gray-400 dark:text-night-300"
       ></tr>
 
       <tr
         mat-row
         *matRowDef="let row; columns: columns"
-        class="border-b  border-dashed !important border-gray-200 hover:bg-gray-100 dark:border-night-500 dark:hover:bg-night-600 "
+        class="!important border-b border-dashed border-gray-200 hover:bg-gray-100 dark:border-night-500 dark:hover:bg-night-600"
       ></tr>
     </table>
 
     <mat-paginator
       [length]="totalItems"
       [pageSize]="pageSize"
-      [showFirstLastButtons]=showFirstLastButtons
-      [pageSizeOptions]=pageSizeOptions
+      [showFirstLastButtons]="showFirstLastButtons"
+      [pageSizeOptions]="pageSizeOptions"
       aria-label="Select page"
       class="dark:dark:bg-night-700 dark:text-night-50"
     >

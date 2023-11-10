@@ -88,6 +88,8 @@ export class ProductCategoryEffect {
                   apiStatus: { apiResponseMessage: '', apiStatus: 'success' },
                 })
               );
+              // You need to define this action
+
               return updateProductCategoryAPISucess({
                 updateProductCategory: data,
               });

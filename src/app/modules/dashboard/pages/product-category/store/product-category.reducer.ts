@@ -22,9 +22,15 @@ export const productCategoryReducer = createReducer(
   }),
 
   on(updateProductCategoryAPISucess, (state, { updateProductCategory }) => {
+  
     let newState = state.filter((_) => _.id != updateProductCategory.id);
     newState.unshift(updateProductCategory);
+ 
     return newState;
+
+
+
+   
   }),
 
   on(deleteProductCategoryAPISuccess, (state, { id }) => {

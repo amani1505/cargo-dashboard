@@ -24,9 +24,9 @@ export const cargoReducer = createReducer(
     newState.unshift(updateCargo);
     return newState;
   }),
-
   on(deleteCargoAPISuccess, (state, { id }) => {
     let newState = state.filter((_) => _.id != id);
+
     return newState;
   })
 );
