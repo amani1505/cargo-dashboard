@@ -1,8 +1,6 @@
 import { HttpClientModule } from '@angular/common/http';
 import {
   ApplicationConfig,
-  ModuleWithProviders,
-  Provider,
   importProvidersFrom,
   isDevMode,
 } from '@angular/core';
@@ -13,6 +11,7 @@ import { StoreModule, StoreRootModule, provideStore } from '@ngrx/store';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { AppRoutingModule } from './app-routing.module';
 import { appReducer } from './shared/store/app.reducer';
+import { provideAuth } from './core/providers/auth.provider';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -25,6 +24,7 @@ export const appConfig: ApplicationConfig = {
     ),
 
     provideAnimations(),
+    provideAuth(),
     provideStore(),
     provideEffects(),
     provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),

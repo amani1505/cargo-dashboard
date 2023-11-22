@@ -15,5 +15,7 @@ import { StoreRootModule } from '@ngrx/store';
 export class AppComponent {
   title = 'Nirovi Lodge';
 
-  constructor(public themeService: ThemeService) {}
+  constructor(public themeService: ThemeService) {
+ 
+  }
 }

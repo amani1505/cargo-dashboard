@@ -16,6 +16,7 @@ import {
   updateProductAPISucess,
 } from './products.action';
 import { selectProducts } from './products.selector';
+import { AuthService } from 'src/app/modules/auth/auth.service';
 
 @Injectable()
 export class ProductsEffect {
@@ -23,6 +24,7 @@ export class ProductsEffect {
     private _actions$: Actions,
     private _productsService: ProductsService,
     private _store: Store,
+    private _authService: AuthService,
     private _appStore: Store<AppState>
   ) {}
 
@@ -57,9 +59,28 @@ export class ProductsEffect {
         if (productsFromStore.length > 0) {
           return EMPTY;
         }
-        return this._productsService
-          .getAllProducts()
-          .pipe(map((data) => productsFetchAPISuccess({ allProducts: data })));
+        return this._productsService.getAllProducts().pipe(
+          map((data) => {
+            let role = this._authService.role;
+            let instituteId = this._authService.instituteId;
+            if (role === 'admin') {
+              const products = data.filter(
+                (products) => products?.institute.id === instituteId
+              );
+
+              console.log('Products Data - admin', products);
+              return productsFetchAPISuccess({
+                allProducts: products,
+              });
+            } else if (role === 'super_admin') {
+              return productsFetchAPISuccess({
+                allProducts: data,
+              });
+            }
+
+            return productsFetchAPISuccess({ allProducts: data });
+          })
+        );
       })
     )
   );

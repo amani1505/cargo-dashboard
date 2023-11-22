@@ -16,15 +16,22 @@ import {
   updateCargoAPISucess,
 } from './cargo.action';
 import { selectCargos } from './cargo.selector';
+import { AuthService } from 'src/app/modules/auth/auth.service';
 
 @Injectable()
 export class CargoEffect {
+  // role:string
+  // instituteId:string
   constructor(
     private _actions$: Actions,
     private _cargoService: CargoService,
     private _store: Store,
+    private _authService: AuthService,
     private _appStore: Store<AppState>
-  ) {}
+  ) {
+    //  this. role = localStorage.getItem('role');
+    //   this.instituteId = localStorage.getItem('instituteId');
+  }
 
   saveNewCargo$ = createEffect(() => {
     return this._actions$.pipe(
@@ -55,9 +62,23 @@ export class CargoEffect {
         if (cargoFromStore.length > 0) {
           return EMPTY;
         }
-        return this._cargoService
-          .getAllCargo()
-          .pipe(map((data) => cargoFetchAPISuccess({ allCargos: data })));
+        return this._cargoService.getAllCargo().pipe(
+          map((data) => {
+            let role = this._authService.role;
+            let instituteId = this._authService.instituteId;
+            if (role === 'admin') {
+              const cargo = data.filter(
+                (cargo) => cargo.institute.id === instituteId
+              );
+
+              return cargoFetchAPISuccess({ allCargos: cargo });
+            } else if (role === 'super_admin') {
+              return cargoFetchAPISuccess({ allCargos: data });
+            }
+
+            return cargoFetchAPISuccess({ allCargos: data });
+          })
+        );
       })
     )
   );

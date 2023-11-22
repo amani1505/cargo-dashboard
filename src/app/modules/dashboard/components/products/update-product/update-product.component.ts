@@ -29,6 +29,7 @@ import { setAPIStatus } from 'src/app/shared/store/app.action';
 })
 export class UpdateProductComponent implements OnInit {
   productCategory$ = this._store.pipe(select(selectProductCategories));
+  loading:boolean = false
   constructor(
     @Inject(MAT_DIALOG_DATA) public product: Products,
     private _formBuilder: FormBuilder,
@@ -50,6 +51,7 @@ export class UpdateProductComponent implements OnInit {
     if (this.productForm.invalid) {
       return;
     }
+    this.loading = true
     const productFormValue = {
       ...this.productForm.value,
       id: this.product.id,
@@ -67,6 +69,7 @@ export class UpdateProductComponent implements OnInit {
         this._appStore.dispatch(
           setAPIStatus({ apiStatus: { apiResponseMessage: '', apiStatus: '' } })
         );
+        this.loading = false
         this.closeDialog();
       }
     });

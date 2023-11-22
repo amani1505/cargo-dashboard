@@ -20,6 +20,7 @@ import { selectAppState } from 'src/app/shared/store/app.selector';
   styleUrls: ['./delete-product.component.scss'],
 })
 export class DeleteProductComponent {
+  loading:boolean = false
   constructor(
     @Inject(MAT_DIALOG_DATA) public product: Products,
     private _store: Store,
@@ -28,6 +29,7 @@ export class DeleteProductComponent {
   ) {}
 
   deleteProduct() {
+    this.loading = true
     this._store.dispatch(invokeDeleteProductAPI({ id: this.product.id }));
     let apiStatus$ = this._appStore.pipe(select(selectAppState));
     apiStatus$.subscribe((apState) => {
@@ -35,6 +37,7 @@ export class DeleteProductComponent {
         this._appStore.dispatch(
           setAPIStatus({ apiStatus: { apiResponseMessage: '', apiStatus: '' } })
         );
+        this.loading = false
         this.closeDialog();
       }
     });

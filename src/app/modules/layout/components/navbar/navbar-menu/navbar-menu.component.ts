@@ -6,20 +6,25 @@ import { NgFor, NgClass } from '@angular/common';
 import { AngularSvgIconModule } from 'angular-svg-icon';
 
 @Component({
-    selector: 'app-navbar-menu',
-    templateUrl: './navbar-menu.component.html',
-    styleUrls: ['./navbar-menu.component.scss'],
-    standalone: true,
-    imports: [
-        NgFor,
-        NgClass,
-        NavbarSubmenuComponent,
-        AngularSvgIconModule
-    ],
+  selector: 'app-navbar-menu',
+  templateUrl: './navbar-menu.component.html',
+  styleUrls: ['./navbar-menu.component.scss'],
+  standalone: true,
+  imports: [NgFor, NgClass, NavbarSubmenuComponent, AngularSvgIconModule],
 })
 export class NavbarMenuComponent implements OnInit {
-  private showMenuClass = ['scale-100', 'animate-fade-in-up', 'opacity-100', 'pointer-events-auto'];
-  private hideMenuClass = ['scale-95', 'animate-fade-out-down', 'opacity-0', 'pointer-events-none'];
+  private showMenuClass = [
+    'scale-100',
+    'animate-fade-in-up',
+    'opacity-100',
+    'pointer-events-auto',
+  ];
+  private hideMenuClass = [
+    'scale-95',
+    'animate-fade-out-down',
+    'opacity-0',
+    'pointer-events-none',
+  ];
 
   constructor(public menuService: MenuService) {}
 
@@ -42,6 +47,14 @@ export class NavbarMenuComponent implements OnInit {
     if (element) {
       this.showMenuClass.forEach((c) => element.classList.remove(c));
       this.hideMenuClass.forEach((c) => element.classList.add(c));
+    }
+  }
+
+  getMenuItems(): MenuItem[] {
+    if (this.menuService.role === 'super_admin') {
+      return this.menuService.superAdminMenu;
+    } else {
+      return this.menuService.pagesMenu;
     }
   }
 }

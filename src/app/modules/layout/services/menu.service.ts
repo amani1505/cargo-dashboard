@@ -11,28 +11,47 @@ export class MenuService implements OnDestroy {
   private _showSidebar = signal(true);
   private _showMobileMenu = signal(false);
   private _pagesMenu = signal<MenuItem[]>([]);
+  private _superAdminMenu = signal<MenuItem[]>([]);
   private _subscription = new Subscription();
+  role = localStorage.getItem('role');
 
   constructor(private router: Router) {
     /** Set dynamic menu */
     this._pagesMenu.set(Menu.pages);
+    this._superAdminMenu.set(Menu.superAdminPages);
 
     let sub = this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         /** Expand menu base on active route */
-        this._pagesMenu().forEach((menu) => {
-          let activeGroup = false;
-          menu.items.forEach((subMenu) => {
-            const active = this.isActive(subMenu.route);
-            subMenu.expanded = active;
-            subMenu.active = active;
-            if (active) activeGroup = true;
-            if (subMenu.children) {
-              this.expand(subMenu.children);
-            }
+             if (this.role == 'super_admin') {
+          this._pagesMenu().forEach((menu) => {
+            let activeGroup = false;
+            menu.items.forEach((subMenu) => {
+              const active = this.isActive(subMenu.route);
+              subMenu.expanded = active;
+              subMenu.active = active;
+              if (active) activeGroup = true;
+              if (subMenu.children) {
+                this.expand(subMenu.children);
+              }
+            });
+            menu.active = activeGroup;
           });
-          menu.active = activeGroup;
-        });
+        } else if (this.role == 'admin') {
+          this._superAdminMenu().forEach((menu) => {
+            let activeGroup = false;
+            menu.items.forEach((subMenu) => {
+              const active = this.isActive(subMenu.route);
+              subMenu.expanded = active;
+              subMenu.active = active;
+              if (active) activeGroup = true;
+              if (subMenu.children) {
+                this.expand(subMenu.children);
+              }
+            });
+            menu.active = activeGroup;
+          });
+        }
       }
     });
     this._subscription.add(sub);
@@ -46,6 +65,9 @@ export class MenuService implements OnDestroy {
   }
   get pagesMenu() {
     return this._pagesMenu();
+  }
+  get superAdminMenu() {
+    return this._superAdminMenu();
   }
 
   set showSideBar(value: boolean) {

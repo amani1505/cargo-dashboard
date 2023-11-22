@@ -20,6 +20,7 @@ import { selectAppState } from 'src/app/shared/store/app.selector';
   styleUrls: ['./delete-product-category.component.scss'],
 })
 export class DeleteProductCategoryComponent {
+  loading: boolean = false;
   constructor(
     @Inject(MAT_DIALOG_DATA) public productCategory: ProductCategory,
     private _store: Store,
@@ -28,6 +29,7 @@ export class DeleteProductCategoryComponent {
   ) {}
 
   deleteProductCategory() {
+    this.loading = true;
     this._store.dispatch(
       invokeDeleteProductCategoryAPI({ id: this.productCategory.id })
     );
@@ -37,6 +39,7 @@ export class DeleteProductCategoryComponent {
         this._appStore.dispatch(
           setAPIStatus({ apiStatus: { apiResponseMessage: '', apiStatus: '' } })
         );
+        this.loading = false;
         this.closeDialog();
       }
     });

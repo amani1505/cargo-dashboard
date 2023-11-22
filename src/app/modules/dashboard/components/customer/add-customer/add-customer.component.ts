@@ -14,25 +14,23 @@ import { invokeProductCategoryAPI } from '../../../pages/product-category/store/
 import { invokeSaveNewCustomerAPI } from '../../../pages/customer/store/customer.action';
 import { selectAppState } from 'src/app/shared/store/app.selector';
 import { setAPIStatus } from 'src/app/shared/store/app.action';
+import { AuthService } from 'src/app/modules/auth/auth.service';
 
 @Component({
   selector: 'app-add-customer',
   standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    FormsModule,
-    MatDialogModule,
-  ],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, MatDialogModule],
   templateUrl: './add-customer.component.html',
   styleUrls: ['./add-customer.component.scss'],
 })
 export class AddCustomerComponent implements OnInit {
   productCategory$ = this._store.pipe(select(selectProductCategories));
+  loading:boolean = false
   constructor(
     private _formBuilder: FormBuilder,
     private _store: Store,
     private _appStore: Store<AppState>,
+    private _authService: AuthService,
     private _dialogRef: MatDialogRef<AddCustomerComponent>
   ) {}
   ngOnInit(): void {
@@ -50,7 +48,11 @@ export class AddCustomerComponent implements OnInit {
     if (this.customerForm.invalid) {
       return;
     }
-    const customerFormValue = this.customerForm.value;
+    this.loading = true
+    const customerFormValue = {
+      ...this.customerForm.value,
+      instituteId: this._authService.instituteId,
+    };
 
     this._store.dispatch(
       invokeSaveNewCustomerAPI({
@@ -64,6 +66,7 @@ export class AddCustomerComponent implements OnInit {
         this._appStore.dispatch(
           setAPIStatus({ apiStatus: { apiResponseMessage: '', apiStatus: '' } })
         );
+        this.loading = false
         this.closeDialog();
       }
     });

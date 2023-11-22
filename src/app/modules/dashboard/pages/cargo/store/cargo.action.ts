@@ -29,7 +29,7 @@ export const invokeUpdateCargoAPI = createAction(
 );
 
 export const updateCargoAPISucess = createAction(
-  '[Cargo API] update  Cargo success',
+  '[Cargo API] update Cargo success',
   props<{ updateCargo: any }>()
 );
 

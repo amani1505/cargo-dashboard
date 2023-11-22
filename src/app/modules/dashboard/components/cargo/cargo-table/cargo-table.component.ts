@@ -83,7 +83,7 @@ export class CargoTableComponent implements OnInit, AfterViewInit {
   }
   updateCargo(id: string) {
     let fetchCargo$ = this._store.pipe(select(selectCargoById(id)));
-    fetchCargo$.subscribe((data) => {
+    fetchCargo$.pipe(take(1)).subscribe((data) => {
       this._dialog.open(UpdateCargoComponent, {
         data: data,
         width: '60%',

@@ -26,6 +26,7 @@ import { selectAppState } from 'src/app/shared/store/app.selector';
   styleUrls: ['./update-product-category.component.scss'],
 })
 export class UpdateProductCategoryComponent {
+  loading: boolean = false;
   constructor(
     @Inject(MAT_DIALOG_DATA) public productCategory: ProductCategory,
     private _formBuilder: FormBuilder,
@@ -41,6 +42,7 @@ export class UpdateProductCategoryComponent {
     if (this.productCategoryForm.invalid) {
       return;
     }
+    this.loading = true;
     const productCategoryFormValue = {
       ...this.productCategoryForm.value,
       id: this.productCategory.id,
@@ -58,6 +60,7 @@ export class UpdateProductCategoryComponent {
         this._appStore.dispatch(
           setAPIStatus({ apiStatus: { apiResponseMessage: '', apiStatus: '' } })
         );
+        this.loading = false;
         this.closeDialog();
       }
     });

@@ -17,26 +17,23 @@ import { setAPIStatus } from 'src/app/shared/store/app.action';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
+import { AuthService } from 'src/app/modules/auth/auth.service';
 
 @Component({
   selector: 'app-add-product',
   standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    FormsModule,
-    MatDialogModule,
-
-  ],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, MatDialogModule],
   templateUrl: './add-product.component.html',
   styleUrls: ['./add-product.component.scss'],
 })
 export class AddProductComponent implements OnInit {
   productCategory$ = this._store.pipe(select(selectProductCategories));
+  loading:boolean = false
   constructor(
     private _formBuilder: FormBuilder,
     private _store: Store,
     private _appStore: Store<AppState>,
+    private _authservice: AuthService,
     private _dialogRef: MatDialogRef<AddProductComponent>
   ) {}
 
@@ -53,7 +50,11 @@ export class AddProductComponent implements OnInit {
     if (this.productForm.invalid) {
       return;
     }
-    const productFormValue = this.productForm.value;
+    this.loading = true
+    const productFormValue = {
+      ...this.productForm.value,
+      instituteId: this._authservice.instituteId,
+    };
 
     this._store.dispatch(
       invokeSaveNewProductsAPI({
@@ -67,6 +68,7 @@ export class AddProductComponent implements OnInit {
         this._appStore.dispatch(
           setAPIStatus({ apiStatus: { apiResponseMessage: '', apiStatus: '' } })
         );
+        this.loading = false
         this.closeDialog();
       }
     });

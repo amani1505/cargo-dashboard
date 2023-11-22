@@ -20,6 +20,7 @@ import { setAPIStatus } from 'src/app/shared/store/app.action';
   styleUrls: ['./delete-customer.component.scss'],
 })
 export class DeleteCustomerComponent {
+  loading: boolean = false;
   constructor(
     @Inject(MAT_DIALOG_DATA) public customer: Customer,
     private _store: Store,
@@ -28,6 +29,7 @@ export class DeleteCustomerComponent {
   ) {}
 
   deleteCustomer() {
+    this.loading = true;
     this._store.dispatch(invokeDeleteCustomerAPI({ id: this.customer.id }));
     let apiStatus$ = this._appStore.pipe(select(selectAppState));
     apiStatus$.subscribe((apState) => {
@@ -35,6 +37,7 @@ export class DeleteCustomerComponent {
         this._appStore.dispatch(
           setAPIStatus({ apiStatus: { apiResponseMessage: '', apiStatus: '' } })
         );
+        this.loading = false;
         this.closeDialog();
       }
     });

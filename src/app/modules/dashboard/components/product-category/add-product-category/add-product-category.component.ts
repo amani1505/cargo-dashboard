@@ -12,6 +12,7 @@ import { invokeSaveNewProductCategoryAPI } from '../../../pages/product-category
 import { selectAppState } from 'src/app/shared/store/app.selector';
 import { setAPIStatus } from 'src/app/shared/store/app.action';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { AuthService } from 'src/app/modules/auth/auth.service';
 
 @Component({
   selector: 'app-add-product-category',
@@ -21,10 +22,12 @@ import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
   styleUrls: ['./add-product-category.component.scss'],
 })
 export class AddProductCategoryComponent {
+  loading: boolean = false;
   constructor(
     private _formBuilder: FormBuilder,
     private _store: Store,
     private _appStore: Store<AppState>,
+    private _authService: AuthService,
     private _dialogRef: MatDialogRef<AddProductCategoryComponent>
   ) {}
 
@@ -36,7 +39,12 @@ export class AddProductCategoryComponent {
     if (this.productCategoryForm.invalid) {
       return;
     }
-    const productCategoryFormValue = this.productCategoryForm.value;
+    const productCategoryFormValue = {
+      ...this.productCategoryForm.value,
+      instituteId: this._authService.instituteId,
+    };
+   
+    this.loading = true;
 
     this._store.dispatch(
       invokeSaveNewProductCategoryAPI({
@@ -50,6 +58,7 @@ export class AddProductCategoryComponent {
         this._appStore.dispatch(
           setAPIStatus({ apiStatus: { apiResponseMessage: '', apiStatus: '' } })
         );
+        this.loading = false;
         this.closeDialog();
       }
     });

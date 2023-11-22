@@ -5,6 +5,9 @@ import { CustomerComponent } from '../dashboard/pages/customer/customer.componen
 import { ProductsComponent } from '../dashboard/pages/products/products.component';
 import { ProductCategoryComponent } from '../dashboard/pages/product-category/product-category.component';
 import { CargoComponent } from '../dashboard/pages/cargo/cargo.component';
+import { AuthComponent } from '../auth/auth.component';
+import { InstituteComponent } from '../dashboard/pages/institute/institute.component';
+import { UserComponent } from '../dashboard/pages/user/user.component';
 
 const routes: Routes = [
   {
@@ -12,7 +15,7 @@ const routes: Routes = [
     component: LayoutComponent,
     children: [
       {
-        path: 'customers',
+        path: '',
         component: CustomerComponent,
         loadChildren: () =>
           import('../dashboard/pages/customer/customer.module').then(
@@ -41,6 +44,22 @@ const routes: Routes = [
         loadChildren: () =>
           import('../dashboard/pages/cargo/cargo.module').then(
             (m) => m.CargoModule
+          ),
+      },
+      {
+        path: 'institute',
+        component: InstituteComponent,
+        loadChildren: () =>
+          import('../dashboard/pages/institute/institute.module').then(
+            (m) => m.InstituteModule
+          ),
+      },
+      {
+        path: 'users',
+        component: UserComponent,
+        loadChildren: () =>
+          import('../dashboard/pages/user/user.module').then(
+            (m) => m.UserModule
           ),
       },
     ],

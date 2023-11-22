@@ -16,6 +16,7 @@ import {
   updateCustomerAPISucess,
 } from './customer.action';
 import { selectCustomers } from './customer.selector';
+import { AuthService } from 'src/app/modules/auth/auth.service';
 
 @Injectable()
 export class CustomerEffect {
@@ -23,6 +24,7 @@ export class CustomerEffect {
     private _actions$: Actions,
     private _customerService: CustomerService,
     private _store: Store,
+    private _authService: AuthService,
     private _appStore: Store<AppState>
   ) {}
 
@@ -55,9 +57,23 @@ export class CustomerEffect {
         if (customerFromStore.length > 0) {
           return EMPTY;
         }
-        return this._customerService
-          .getAllCustomer()
-          .pipe(map((data) => customerFetchAPISuccess({ allCustomers: data })));
+        return this._customerService.getAllCustomer().pipe(
+          map((data) => {
+            let role = this._authService.role;
+            let instituteId = this._authService.instituteId;
+            if (role === 'admin') {
+              const customer = data.filter(
+                (customer) => customer.institute?.id === instituteId
+              );
+
+              return customerFetchAPISuccess({ allCustomers: customer });
+            } else if (role === 'super_admin') {
+              return customerFetchAPISuccess({ allCustomers: data });
+            }
+
+            return customerFetchAPISuccess({ allCustomers: data });
+          })
+        );
       })
     )
   );

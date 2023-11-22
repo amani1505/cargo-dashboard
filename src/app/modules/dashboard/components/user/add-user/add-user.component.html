@@ -1,0 +1,145 @@
+<div class="mb-7">
+  <h1 mat-dialog-title class="text-center text-2xl font-bold tracking-wider">
+    Add User
+  </h1>
+</div>
+<mat-dialog-content>
+  <mat-dialog-content>
+    <form class="space-y-6" [formGroup]="userForm">
+      <div class="space-y-3 text-left">
+        <div class="relative">
+          <input
+            type="text"
+            id="full_name"
+            class="peer block"
+            placeholder=" "
+            formControlName="full_name"
+          />
+          <label
+            for="full_name"
+            class="absolute left-1 top-2 z-10 origin-[0] -translate-y-4 scale-95 transform bg-white px-2 text-sm text-gray-500 duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-95 peer-focus:px-2 peer-focus:text-primary-500 dark:bg-night-700 dark:text-night-200"
+          >
+            Fullname
+          </label>
+        </div>
+        <div class="relative">
+          <input
+            type="text"
+            id="email"
+            class="peer block"
+            placeholder=" "
+            formControlName="email"
+          />
+          <label
+            for="email"
+            class="absolute left-1 top-2 z-10 origin-[0] -translate-y-4 scale-95 transform bg-white px-2 text-sm text-gray-500 duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-95 peer-focus:px-2 peer-focus:text-primary-500 dark:bg-night-700 dark:text-night-200"
+          >
+            Email address
+          </label>
+        </div>
+        <div class="relative">
+          <input
+            type="text"
+            id="mobile_number"
+            class="peer block"
+            placeholder=" "
+            formControlName="mobile_number"
+          />
+          <label
+            for="mobile_number"
+            class="absolute left-1 top-2 z-10 origin-[0] -translate-y-4 scale-95 transform bg-white px-2 text-sm text-gray-500 duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-95 peer-focus:px-2 peer-focus:text-primary-500 dark:bg-night-700 dark:text-night-200"
+          >
+            Mobile No
+          </label>
+        </div>
+        <div class="relative">
+          <select name="" id="" class="select" formControlName="instituteId">
+            <option value="" disabled selected>Select a Institute</option>
+            <option
+              *ngFor="let Institute of institutes$ | async"
+              [value]="Institute.id"
+            >
+              {{ Institute.name }}
+            </option>
+          </select>
+          <label
+            for="roomType"
+            class="absolute left-1 top-2 z-10 origin-[0] -translate-y-4 scale-95 transform bg-white px-2 text-sm text-gray-500 duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-95 peer-focus:px-2 peer-focus:text-primary-600 dark:bg-night-700 dark:text-night-200"
+          >
+            Institute
+          </label>
+        </div>
+
+        <div class="relative">
+          <input
+            type="password"
+            id="password"
+            class="peer block"
+            placeholder=" "
+            formControlName="password"
+          />
+          <label
+            for="password"
+            class="absolute left-1 top-2 z-10 origin-[0] -translate-y-4 scale-95 transform bg-white px-2 text-sm text-gray-500 duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-95 peer-focus:px-2 peer-focus:text-primary-600 dark:bg-night-700 dark:text-night-200"
+          >
+            Password
+          </label>
+          <span
+            class="absolute right-5 top-2.5 cursor-pointer text-gray-400 dark:text-night-300"
+          >
+            <svg-icon
+              src="assets/icons/heroicons/outline/eye-off.svg"
+              [svgClass]="'h-5 w-5'"
+            >
+            </svg-icon>
+            <svg-icon
+              src="assets/icons/heroicons/outline/eye.svg"
+              [svgClass]="'h-5 w-5 hidden'"
+            >
+            </svg-icon>
+          </span>
+        </div>
+      </div>
+
+      <div class="mt-4 flex flex-row-reverse gap-3">
+        <div>
+          <button
+            class="w-full flex-none rounded bg-primary-500 px-4 py-2.5 text-xs font-semibold text-white hover:bg-primary-600 dark:bg-primary-500 dark:text-white dark:hover:bg-primary-600"
+            (click)="saveUser()"
+          >
+            <svg
+              *ngIf="loading"
+              class="-ml-1 mr-3 h-5 w-5 animate-spin text-center text-white"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <circle
+                class="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                stroke-width="4"
+              ></circle>
+              <path
+                class="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+              ></path>
+            </svg>
+            <span *ngIf="!loading"> Submit</span>
+          </button>
+        </div>
+        <div>
+          <button
+            class="w-full flex-none rounded bg-red-500 px-4 py-2.5 text-xs font-semibold text-white hover:bg-red-600 dark:bg-red-500 dark:text-white dark:hover:bg-red-600"
+            (click)="closeDialog()"
+          >
+            Cancel
+          </button>
+        </div>
+      </div>
+    </form>
+  </mat-dialog-content>
+</mat-dialog-content>

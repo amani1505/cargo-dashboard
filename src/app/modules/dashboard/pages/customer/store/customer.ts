@@ -1,4 +1,5 @@
 import { Cargo } from '../../cargo/store/cargo';
+import { Institute } from '../../institute/store/institute';
 import { ProductCategory } from '../../product-category/store/product-category';
 
 export interface Customer {
@@ -8,4 +9,5 @@ export interface Customer {
   namba_ya_simu: string;
   category: ProductCategory;
   mizigo: Array<Cargo>;
+  institute:Institute
 }

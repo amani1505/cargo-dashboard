@@ -22,6 +22,7 @@ import { invokeUpdateCargoAPI } from '../../../pages/cargo/store/cargo.action';
 import { selectAppState } from 'src/app/shared/store/app.selector';
 import { setAPIStatus } from 'src/app/shared/store/app.action';
 import { Cargo } from '../../../pages/cargo/store/cargo';
+import { _fixedSizeVirtualScrollStrategyFactory } from '@angular/cdk/scrolling';
 
 @Component({
   selector: 'app-update-cargo',
@@ -34,6 +35,7 @@ export class UpdateCargoComponent {
   image: File;
   imageData: File;
   editImage: boolean = false;
+  loading: boolean = false;
   productCategory$ = this._store.pipe(select(selectProductCategories));
   customer$ = this._store.pipe(select(selectCustomers));
 
@@ -51,7 +53,6 @@ export class UpdateCargoComponent {
     this.imageData = new File([imageFileBlob], this.cargo.image, {
       type: imageFileBlob.type,
     });
-    console.log('Cargo image', this.imageData);
   }
   ngOnInit(): void {
     this._store.dispatch(invokeProductCategoryAPI());
@@ -82,22 +83,22 @@ export class UpdateCargoComponent {
     if (this.cargoForm.invalid) {
       return;
     }
+    this.loading = true;
     const cargoFormValue = {
       ...this.cargoForm.value,
-      image: this.image || this.imageData,
     };
-    console.log('FORM DATA', cargoFormValue);
-    const cargoFormData = new FormData();
+    // console.log('FORM DATA', this.imageData);
+    // const cargoFormData = new FormData();
 
-    for (const key in cargoFormValue) {
-      if (cargoFormValue.hasOwnProperty(key)) {
-        const value = cargoFormValue[key];
-        cargoFormData.append(key, value);
-      }
-    }
+    // for (const key in cargoFormValue) {
+    //   if (cargoFormValue.hasOwnProperty(key)) {
+    //     const value = cargoFormValue[key];
+    //     cargoFormData.append(key, value);
+    //   }
+    // }
 
     this._store.dispatch(
-      invokeUpdateCargoAPI({ id: this.cargo.id, updateCargo: cargoFormData })
+      invokeUpdateCargoAPI({ id: this.cargo.id, updateCargo: cargoFormValue })
     );
     let apiStatus$ = this._appStore.pipe(select(selectAppState));
     apiStatus$.subscribe((apState) => {
@@ -105,6 +106,7 @@ export class UpdateCargoComponent {
         this._appStore.dispatch(
           setAPIStatus({ apiStatus: { apiResponseMessage: '', apiStatus: '' } })
         );
+        this.loading = false;
         this.closeDialog();
       }
     });

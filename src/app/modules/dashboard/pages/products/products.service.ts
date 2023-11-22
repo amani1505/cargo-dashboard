@@ -2,11 +2,15 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Products } from './store/products';
+import { Observable, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProductsService {
+  private numberOfProductSubject = new Subject<number>();
+  numberOfProduct: Observable<number> =
+    this.numberOfProductSubject.asObservable();
   constructor(private _httpClient: HttpClient) {}
 
   createProduct(payload: any) {
@@ -15,6 +19,18 @@ export class ProductsService {
 
   getAllProducts() {
     return this._httpClient.get<Products[]>(`${environment.apiUrl}products`);
+  }
+  getNumberOfProduct() {
+    return this._httpClient
+      .get<Products[]>(`${environment.apiUrl}products`)
+      .subscribe((numberOfProduct) => {
+        let instituteId = localStorage.getItem('instituteId');
+        const products = numberOfProduct.filter(
+          (products) => products?.institute.id === instituteId
+        );
+
+        this.numberOfProductSubject.next(products.length);
+      });
   }
 
   updateProduct(payload: any) {

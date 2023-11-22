@@ -16,11 +16,23 @@
 
       <!-- Logo -->
       <div class="flex items-center justify-start sm:order-2 md:mr-10 lg:hidden">
-        <a class="flex items-center justify-center rounded bg-primary-500 p-2 focus:outline-none focus:ring-1">
-          
-          <svg-icon src="assets/icons/logo.svg"> [svgClass]="'h-5 w-5'"> </svg-icon>
+        <a
+          *ngIf="institute?.logo"
+          class="flex items-center justify-center rounded p-2 focus:outline-none focus:ring-1"
+        >
+          <img src="{{ url + institute?.logo }}" alt="" class="w-5" />
         </a>
-        <b class="hidden pl-3 text-sm font-bold dark:text-night-50 sm:block"> Nirovi <span class="text-primary-500">Lodge</span> </b>
+
+        <a
+          *ngIf="!institute?.logo"
+          class="flex items-center justify-center rounded bg-primary-500 p-2 focus:outline-none focus:ring-1"
+        >
+          <svg-icon src="assets/icons/logo.svg"> </svg-icon>
+        </a>
+
+        <b class="ml-1 pl-2 text-sm font-bold dark:text-night-50">
+          {{ institute?.name }}
+        </b>
       </div>
 
       <!-- Desktop Menu -->

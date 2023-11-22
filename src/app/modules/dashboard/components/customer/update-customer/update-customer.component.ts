@@ -29,6 +29,7 @@ import { Customer } from '../../../pages/customer/store/customer';
 })
 export class UpdateCustomerComponent implements OnInit {
   productCategory$ = this._store.pipe(select(selectProductCategories));
+  loading: boolean = false;
   constructor(
     @Inject(MAT_DIALOG_DATA) public customer: Customer,
     private _formBuilder: FormBuilder,
@@ -51,6 +52,7 @@ export class UpdateCustomerComponent implements OnInit {
     if (this.customerForm.invalid) {
       return;
     }
+    this.loading = true;
     const customerFormValue = {
       ...this.customerForm.value,
       id: this.customer.id,
@@ -68,6 +70,7 @@ export class UpdateCustomerComponent implements OnInit {
         this._appStore.dispatch(
           setAPIStatus({ apiStatus: { apiResponseMessage: '', apiStatus: '' } })
         );
+        this.loading = false;
         this.closeDialog();
       }
     });

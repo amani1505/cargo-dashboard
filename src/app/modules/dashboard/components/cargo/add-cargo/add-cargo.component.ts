@@ -16,6 +16,7 @@ import { invokeCustomerAPI } from '../../../pages/customer/store/customer.action
 import { invokeSaveNewCargoAPI } from '../../../pages/cargo/store/cargo.action';
 import { selectAppState } from 'src/app/shared/store/app.selector';
 import { setAPIStatus } from 'src/app/shared/store/app.action';
+import { AuthService } from 'src/app/modules/auth/auth.service';
 
 @Component({
   selector: 'app-add-cargo',
@@ -25,6 +26,7 @@ import { setAPIStatus } from 'src/app/shared/store/app.action';
   styleUrls: ['./add-cargo.component.scss'],
 })
 export class AddCargoComponent implements OnInit {
+  loading:boolean = false
   image: File;
   productCategory$ = this._store.pipe(select(selectProductCategories));
   customer$ = this._store.pipe(select(selectCustomers));
@@ -33,6 +35,7 @@ export class AddCargoComponent implements OnInit {
     private _formBuilder: FormBuilder,
     private _store: Store,
     private _appStore: Store<AppState>,
+    private _authService: AuthService,
     private _dialogRef: MatDialogRef<AddCargoComponent>
   ) {}
   ngOnInit(): void {
@@ -60,8 +63,12 @@ export class AddCargoComponent implements OnInit {
     if (this.cargoForm.invalid) {
       return;
     }
-    const cargoFormValue = { ...this.cargoForm.value, image: this.image };
-   
+    this.loading = true
+    const cargoFormValue = {
+      ...this.cargoForm.value,
+      image: this.image,
+      instituteId: this._authService.instituteId,
+    };
 
     const cargoFormData = new FormData();
 
@@ -79,6 +86,7 @@ export class AddCargoComponent implements OnInit {
         this._appStore.dispatch(
           setAPIStatus({ apiStatus: { apiResponseMessage: '', apiStatus: '' } })
         );
+        this.loading = false
         this.closeDialog();
       }
     });

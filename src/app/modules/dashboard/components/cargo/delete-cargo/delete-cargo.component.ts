@@ -21,6 +21,7 @@ import { Subject, takeUntil } from 'rxjs';
   styleUrls: ['./delete-cargo.component.scss'],
 })
 export class DeleteCargoComponent {
+  loading:boolean = false
   constructor(
     @Inject(MAT_DIALOG_DATA) public cargo: Cargo,
     private _store: Store,
@@ -29,6 +30,7 @@ export class DeleteCargoComponent {
   ) {}
 
   deleteCargo() {
+    this.loading = true
     this._store.dispatch(invokeDeleteCargoAPI({ id: this.cargo.id }));
     let apiStatus$ = this._appStore.pipe(select(selectAppState));
     apiStatus$.subscribe((apState) => {
@@ -36,7 +38,9 @@ export class DeleteCargoComponent {
         this._appStore.dispatch(
           setAPIStatus({ apiStatus: { apiResponseMessage: '', apiStatus: '' } })
         );
+        this.loading = false
         this.closeDialog();
+
       }
     });
   }

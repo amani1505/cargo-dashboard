@@ -16,6 +16,7 @@ import {
   updateProductCategoryAPISucess,
 } from './product-category.action';
 import { selectProductCategories } from './product-category.selector';
+import { AuthService } from 'src/app/modules/auth/auth.service';
 
 @Injectable()
 export class ProductCategoryEffect {
@@ -23,6 +24,7 @@ export class ProductCategoryEffect {
     private _actions$: Actions,
     private _productCategoryService: ProductCategoryService,
     private _store: Store,
+    private _authService: AuthService,
     private _appStore: Store<AppState>
   ) {}
 
@@ -61,13 +63,32 @@ export class ProductCategoryEffect {
         if (productCategoryFromStore.length > 0) {
           return EMPTY;
         }
-        return this._productCategoryService
-          .getAllProductCategory()
-          .pipe(
-            map((data) =>
-              productCategoryFetchAPISuccess({ allProductCategories: data })
-            )
-          );
+        return this._productCategoryService.getAllProductCategory().pipe(
+          map((data) => {
+            console.log("Data",data)
+            let role = this._authService.role;
+            let instituteId = this._authService.instituteId;
+            if (role === 'admin') {
+              const productCategory = data.filter(
+                (productCategory) =>
+                  productCategory?.institute.id === instituteId
+              );
+              console.log("Product Category",productCategory)
+
+              return productCategoryFetchAPISuccess({
+                allProductCategories: productCategory,
+              });
+            } else if (role === 'super_admin') {
+              return productCategoryFetchAPISuccess({
+                allProductCategories: data,
+              });
+            }
+
+            return productCategoryFetchAPISuccess({
+              allProductCategories: data,
+            });
+          })
+        );
       })
     )
   );
